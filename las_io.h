@@ -61,7 +61,6 @@ LASreadOpener lasreadopener;
 lasreadopener.set_file_name(filename.c_str());
 LASreader* lasreader = lasreadopener.open();
 if (lasreader==NULL) return -1;
-// 获取点云数据的属性特征
 int m_totalcount= lasreader->header.number_of_point_records;
 double dx,dy;
 if (IsScale)
