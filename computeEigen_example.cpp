@@ -24,9 +24,15 @@ int main (int argc, char** argv)
 	  std::vector<int> pointIdxSearch;
 	  std::vector<float> pointSquaredDistance;
 	  kdtree.radiusSearch(i,2.0,pointIdxSearch,pointSquaredDistance);
+	  // metohd 1 for compute covariance matrix
 	  Eigen::Matrix3f cov;
 	  Eigen::Vector4f xyz_centroid;
-	  computeCovMy(*cloud,pointIdxSearch,cov,xyz_centroid); 	  
+	  computeCovMy(*cloud,pointIdxSearch,cov,xyz_centroid); 	
+	  // metohd 2 for compute covariance matrix
+	  // Eigen::MatrixXf pts;
+	  // filter(*cloud,pointIdxSearch,pts); 
+	  // computeCovariance(pts,cov);	
+	  
 	  Eigen::Matrix3f eigenvector;
 	  Eigen::Vector3f eigenvalue;
 	  computeEigen(cov,eigenvector, eigenvalue);
