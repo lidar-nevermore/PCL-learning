@@ -283,11 +283,28 @@ template <typename Matrix, typename Vector> inline void
 	// Rescale back to the original size.
 	evals *= scale;
 }
-
+template <typename PointT> inline unsigned int
+	filter (const pcl::PointCloud<PointT> &cloud,
+	const std::vector<int> &indices,	
+	Eigen::MatrixXf &result
+	)
+{
+	// extract Matrix from PointCloud
+	result.setZero(indices.size(),3);
+	int i=0;
+	for (std::vector<int>::const_iterator it = indices.begin (); it != indices.end (); ++it,++i)
+	{
+		result(i,0)=cloud[*it].x;
+		result(i,1)=cloud[*it].y;
+		result(i,2)=cloud[*it].z;
+	}
+	return indices.size();
+}
 
 template <typename MatrixIn, typename MatrixOut> inline void
 	computeCovariance (const MatrixIn& mat, MatrixOut& covMat)
 {	
+	// compute Covariance using Eigen
 	typedef typename MatrixIn::Scalar Scalar;	
 	MatrixIn input = mat;
 	Eigen::Matrix< Scalar,1,Eigen::Dynamic> meanVal=input.colwise().mean(); 
