@@ -18,7 +18,7 @@ int main (int argc, char** argv)
 
   pcl::KdTreeFLANN<MyPoint> kdtree;
   kdtree.setInputCloud (cloud);
-  std::ofstream ofs("result.txt");
+  std::ofstream ofs(dir+"result.txt");
   for (int i=0;i<cloud->size();i++)
   {
 	  std::vector<int> pointIdxSearch;
