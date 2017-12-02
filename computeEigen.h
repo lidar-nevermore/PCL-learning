@@ -309,5 +309,5 @@ template <typename MatrixIn, typename MatrixOut> inline void
 	MatrixIn input = mat;
 	Eigen::Matrix< Scalar,1,Eigen::Dynamic> meanVal=input.colwise().mean(); 
 	input.rowwise() -= meanVal;	
-	covMat= input.adjoint() * input /(input.rows()-1);  	
+	covMat.noalias()= input.adjoint() * input /(input.rows()-1);  	
 }
