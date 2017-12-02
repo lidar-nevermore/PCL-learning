@@ -305,9 +305,36 @@ template <typename MatrixIn, typename MatrixOut> inline void
 	computeCovariance (const MatrixIn& mat, MatrixOut& covMat)
 {	
 	// compute Covariance using Eigen
-	typedef typename MatrixIn::Scalar Scalar;	
-	MatrixIn input = mat;
-	Eigen::Matrix< Scalar,1,Eigen::Dynamic> meanVal=input.colwise().mean(); 
-	input.rowwise() -= meanVal;	
-	covMat.noalias()= input.adjoint() * input /(input.rows()-1);  	
+	covMat.setZero ();
+	//at least 3 points are required
+	if (mat.rows()>=3)	
+	{
+		typedef typename MatrixIn::Scalar Scalar;	
+		MatrixIn input = mat;
+		Eigen::Matrix< Scalar,1,Eigen::Dynamic> meanVal=input.colwise().mean(); 
+		input.rowwise() -= meanVal;	
+		covMat= input.adjoint() * input /(input.rows()-1);  
+	}
+	return;
+}
+template <typename MatrixIn, typename MatrixOut,typename VectorOut> inline void
+	computeCovariance (
+	const MatrixIn & mat, 
+	MatrixOut & covMat,
+	VectorOut & xyz_centroid)
+{			
+	// compute Covariance and xyz_centroid using Eigen
+	covMat.setZero ();
+	xyz_centroid.setZero ();
+	//at least 3 points are required
+	if (mat.rows()>=3)	
+	{
+		typedef typename MatrixIn::Scalar Scalar;
+		MatrixIn input = mat;
+		Eigen::Matrix< Scalar,1,Eigen::Dynamic> meanVal=input.colwise().mean(); 
+		input.rowwise() -= meanVal;	
+		covMat= input.adjoint() * input /(input.rows()-1);  
+		xyz_centroid=VectorOut::Map(meanVal.data());
+	}
+	return;	
 }
