@@ -9,8 +9,8 @@ template <typename PointT> inline unsigned int
 	Eigen::Matrix3f &covariance_matrix,
 	Eigen::Vector4f &xyz_centroid)
 {
-
-	if (cloud.empty()||indices.empty())
+	// at least 3 points are required
+	if (cloud.size ()<3||indices.size ()<3)
 		return (0);
 
 	// Initialize to 0
@@ -46,7 +46,7 @@ template <typename PointT> inline unsigned int
 		covariance_matrix (1, 0) = covariance_matrix (0, 1);
 		covariance_matrix (2, 0) = covariance_matrix (0, 2);
 		covariance_matrix (2, 1) = covariance_matrix (1, 2);
-		covariance_matrix/=static_cast<float> (point_count);
+		covariance_matrix/=static_cast<float> (point_count-1);
 	}
 	else
 	{
@@ -60,6 +60,9 @@ template <typename PointT> inline unsigned int
 			ave_y += cloud[*iIt].y;
 			ave_z += cloud[*iIt].z;			
 		}
+		// at least 3 points are required
+		if (point_count<3)
+			return 0;
 		ave_x/=static_cast<float> (point_count);
 		ave_y/=static_cast<float> (point_count);
 		ave_z/=static_cast<float> (point_count);
@@ -80,7 +83,7 @@ template <typename PointT> inline unsigned int
 		covariance_matrix (1, 0) = covariance_matrix (0, 1);
 		covariance_matrix (2, 0) = covariance_matrix (0, 2);
 		covariance_matrix (2, 1) = covariance_matrix (1, 2);
-		covariance_matrix/=static_cast<float> (point_count);
+		covariance_matrix/=static_cast<float> (point_count-1);
 	}	
 	xyz_centroid[0] = ave_x; 
 	xyz_centroid[1] = ave_y; 
