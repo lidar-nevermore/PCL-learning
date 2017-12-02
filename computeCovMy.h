@@ -89,4 +89,4 @@ template <typename PointT> inline unsigned int
 	return (point_count);
 }
 
-#endif  //#ifndef PCL_COMMON_IMPL_CENTROID_H_
+#endif  //#ifndef COMPUTE_COV_MY_H_
