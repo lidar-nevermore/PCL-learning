@@ -14,12 +14,7 @@ struct MyPoint
 	int CountOfReturns;
 	int ReturnNumber;
 	int classification;
-	EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-	
-	inline Eigen::Vector3i getRGBVector3i () { return (Eigen::Vector3i (r, g, b)); }
-	inline const Eigen::Vector3i getRGBVector3i () const { return (Eigen::Vector3i (r, g, b)); }
-	inline Eigen::Vector4i getRGBVector4i () { return (Eigen::Vector4i (r, g, b, 0)); }
-	inline const Eigen::Vector4i getRGBVector4i () const { return (Eigen::Vector4i (r, g, b, 0)); }
+	EIGEN_MAKE_ALIGNED_OPERATOR_NEW	
 }EIGEN_ALIGN16;
 POINT_CLOUD_REGISTER_POINT_STRUCT(MyPoint,
 	(float,x,x)
