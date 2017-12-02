@@ -21,7 +21,7 @@ template <typename Scalar, typename Roots> inline void
 
 //////////////////////////////////////////////////////////////////////////////////////////
 template <typename Matrix, typename Vector> inline void
-	computeEigenvalues (const Matrix& m, Vector& roots)
+	computeEigenvaluesforScaledMat (const Matrix& m, Vector& roots)
 {
 	typedef typename Matrix::Scalar Scalar;
 
@@ -83,6 +83,25 @@ template <typename Matrix, typename Vector> inline void
 			computeRoots (c2, c1, roots);
 	}
 }
+
+template <typename Matrix, typename Vector> inline void
+	computeEigenvalues (const Matrix& m, Vector& evals)
+{
+	
+	typedef typename Matrix::Scalar Scalar;
+	// Scale the matrix so its entries are in [-1,1].  The scaling is applied
+	// only when at least one matrix entry has magnitude larger than 1.
+
+	Scalar scale = mat.cwiseAbs ().maxCoeff ();
+	if (scale <= std::numeric_limits < Scalar > ::min ())
+		scale = Scalar (1.0);
+
+	Matrix scaledMat = mat / scale;
+	// Compute the eigenvalues
+	computeEigenvaluesforScaledMat (scaledMat, evals);
+	evals *= scale;
+}
+
 template <typename Matrix, typename Vector> inline void
 	computeEigen (const Matrix& mat, Matrix& evecs, Vector& evals)
 {
@@ -97,7 +116,7 @@ template <typename Matrix, typename Vector> inline void
 	Matrix scaledMat = mat / scale;
 
 	// Compute the eigenvalues
-	computeEigenvalues (scaledMat, evals);
+	computeEigenvaluesforScaledMat (scaledMat, evals);
 
 	if ( (evals (2) - evals (0)) <= Eigen::NumTraits < Scalar > ::epsilon ())
 	{
@@ -264,6 +283,8 @@ template <typename Matrix, typename Vector> inline void
 	// Rescale back to the original size.
 	evals *= scale;
 }
+
+
 template <typename MatrixIn, typename MatrixOut> inline void
 	computeCovariance (const MatrixIn& mat, MatrixOut& covMat)
 {	
