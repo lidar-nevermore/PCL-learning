@@ -14,6 +14,7 @@ struct MyPoint
 	int CountOfReturns;
 	int ReturnNumber;
 	int classification;
+	friend ostream &operator<<(ostream &out,MyPoint pt);
 	EIGEN_MAKE_ALIGNED_OPERATOR_NEW	
 }EIGEN_ALIGN16;
 POINT_CLOUD_REGISTER_POINT_STRUCT(MyPoint,
@@ -31,7 +32,14 @@ POINT_CLOUD_REGISTER_POINT_STRUCT(MyPoint,
 	(int,ReturnNumber,ReturnNumber)
 	(int,classification,classification)	
 	)
-
+ostream &operator<<(ostream &out,MyPoint pt)
+{
+	out<<pt.x<<" "<<pt.y<<" "<<pt.z<<" "
+		<<(int)pt.r<<" "<<(int)pt.g<<" "<<(int)pt.b<<" "
+		<<pt.userdata<<" "<<pt.CountOfReturns<<" "
+		<<pt.ReturnNumber<<" "<<pt.classification;
+	return out;
+};
 /*
 // pack r/g/b into rgb
  uint8_t r = 255, g = 0, b = 0;    // Example: Red color
