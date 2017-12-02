@@ -283,22 +283,38 @@ template <typename Matrix, typename Vector> inline void
 	// Rescale back to the original size.
 	evals *= scale;
 }
-template <typename PointT> inline unsigned int
+template <typename PointT,typename Matrix> inline unsigned int
 	filter (const pcl::PointCloud<PointT> &cloud,
 	const std::vector<int> &indices,	
-	Eigen::MatrixXf &result
+	Matrix &result
 	)
-{
-	// extract Matrix from PointCloud
+{	
 	result.setZero(indices.size(),3);
-	int i=0;
-	for (std::vector<int>::const_iterator it = indices.begin (); it != indices.end (); ++it,++i)
+	int count=0;
+	if (cloud.is_dense)
 	{
-		result(i,0)=cloud[*it].x;
-		result(i,1)=cloud[*it].y;
-		result(i,2)=cloud[*it].z;
+		for (std::vector<int>::const_iterator it = indices.begin (); it != indices.end (); ++it)
+		{
+			result(count,0)=cloud[*it].x;
+			result(count,1)=cloud[*it].y;
+			result(count,2)=cloud[*it].z;
+			++count;
+		}
 	}
-	return indices.size();
+	else
+	{
+		for (std::vector<int>::const_iterator it = indices.begin (); it != indices.end (); ++it)
+		{
+			if (!isFinite (cloud[*it]))
+				continue;
+			result(count,0)=cloud[*it].x;
+			result(count,1)=cloud[*it].y;
+			result(count,2)=cloud[*it].z;
+			++count;
+		}
+		result=result.topRows(count).eval();
+	}
+	return count;
 }
 
 template <typename MatrixIn, typename MatrixOut> inline void
