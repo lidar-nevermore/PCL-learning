@@ -273,20 +273,3 @@ template <typename MatrixIn, typename MatrixOut> inline void
 	input.rowwise() -= meanVal;	
 	covMat= input.adjoint() * input /(input.rows()-1);  	
 }
-
-
-int main()
-{
-	Eigen::MatrixXf data(Eigen::MatrixXf::Random(10,3));	
-	cout<<data<<endl<<endl;
-	Eigen::Matrix3f cov;
-	computeCovariance (data, cov); 		
-	cout<<cov<<endl<<endl;
-	Eigen::Matrix3f eigenvector;
-	Eigen::Vector3f eigenvalue;
-	computeEigen(cov,eigenvector, eigenvalue);
-	std::cout << eigenvector<< std::endl << eigenvalue << std::endl;
-		
-	system("pause");
-	return 0;
-}
