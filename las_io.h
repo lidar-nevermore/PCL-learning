@@ -65,7 +65,7 @@ lasreadopener.set_file_name(filename.c_str());
 LASreader* lasreader = lasreadopener.open();
 if (lasreader==NULL) return -1;
 int m_totalcount= lasreader->header.number_of_point_records;
-double dx,dy;
+double dx=0,dy=0;
 if (IsScale)
 {
 	double minX=lasreader->header.min_x;
@@ -74,10 +74,7 @@ if (IsScale)
 	double maxY=lasreader->header.max_y;	
 	dx=(minX+maxX)/2.0;
 	dy=(minY+maxY)/2.0;
-}
-else
-{
-	dx=dy=0.0;
+	cout<<"x_offset:"<<dx<<" y_offset:"<<dy<<endl;
 }
 m_cloud->resize(m_totalcount);
 int i=0;
