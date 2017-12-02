@@ -312,7 +312,7 @@ template <typename PointT,typename Matrix> inline unsigned int
 			result(count,2)=cloud[*it].z;
 			++count;
 		}
-		result=result.topRows(count).eval();
+		result=result.topRows(count);
 	}
 	return count;
 }
@@ -329,7 +329,7 @@ template <typename MatrixIn, typename MatrixOut> inline void
 		MatrixIn input = mat;
 		Eigen::Matrix< Scalar,1,Eigen::Dynamic> meanVal=input.colwise().mean(); 
 		input.rowwise() -= meanVal;	
-		covMat= input.adjoint() * input /(input.rows()-1);  
+		covMat.noalias()= input.adjoint() * input /(input.rows()-1);  
 	}
 	return;
 }
@@ -349,7 +349,7 @@ template <typename MatrixIn, typename MatrixOut,typename VectorOut> inline void
 		MatrixIn input = mat;
 		Eigen::Matrix< Scalar,1,Eigen::Dynamic> meanVal=input.colwise().mean(); 
 		input.rowwise() -= meanVal;	
-		covMat= input.adjoint() * input /(input.rows()-1);  
+		covMat.noalias()= input.adjoint() * input /(input.rows()-1);  
 		xyz_centroid=VectorOut::Map(meanVal.data());
 	}
 	return;	
