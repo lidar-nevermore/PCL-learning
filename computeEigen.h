@@ -85,7 +85,7 @@ template <typename Matrix, typename Vector> inline void
 }
 
 template <typename Matrix, typename Vector> inline void
-	computeEigenvalues (const Matrix& m, Vector& evals)
+	computeEigenvalues (const Matrix& mat, Vector& evals)
 {
 	
 	typedef typename Matrix::Scalar Scalar;
