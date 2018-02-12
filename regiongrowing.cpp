@@ -181,6 +181,7 @@ void applySmoothRegionGrowingAlgorithm (
 			if (point_labels_[index] == -1)
 			{
 				seed = index;
+				seed_counter = i_seed;
 				break;
 			}
 		}
