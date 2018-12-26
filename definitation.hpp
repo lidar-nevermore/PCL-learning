@@ -9,8 +9,9 @@ template<typename T>
 class pointCloud
 {
 public:
-	pointCloud()=default;
-	pointCloud(const std::vector<std::vector<T>> & input) { setinput(input); };
+	pointCloud() { line = nullptr; dim = 3; };
+	pointCloud(const char* filename) { line = nullptr; dim = 3; loadfromfile(filename); };
+	pointCloud(const std::vector<std::vector<T>> & input) { line = nullptr; dim = 3; setinput(input); };
 	~pointCloud() { delete[] data.ptr(); flann_index.reset(); }
 	char *readline(FILE *input)
 	{
@@ -136,7 +137,7 @@ public:
 		if (k > num_points)
 			k = num_points;
 		flann::Matrix<int> k_indices_mat(&k_indices[0], 1, k);
-		flann::Matrix<float> k_sqr_distances_mat(&k_sqr_distances[0], 1, k);
+		flann::Matrix<T> k_sqr_distances_mat(&k_sqr_distances[0], 1, k);
 		return flann_index->knnSearch(query, k_indices_mat, k_sqr_distances_mat, k, flann::SearchParams(128));
 	};
 	int knnSearch(int i, int k,
