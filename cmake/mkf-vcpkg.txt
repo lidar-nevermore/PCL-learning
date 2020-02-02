@@ -1,0 +1,9 @@
+cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+SET(CMAKE_TOOLCHAIN_FILE "D:/vcpkg/scripts/buildsystems/vcpkg.cmake")
+project(radiusDensity)
+find_package(hdf5  REQUIRED)    
+find_package(FLANN REQUIRED)
+find_package(lz4  REQUIRED)
+
+add_executable (radiusDensity radiusDensity.cpp)
+target_link_libraries(radiusDensity PRIVATE flann::flann flann::flann_cpp hdf5::hdf5-shared hdf5::hdf5_hl-shared lz4::lz4)
