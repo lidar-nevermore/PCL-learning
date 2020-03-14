@@ -1,0 +1,9 @@
+cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+SET(CMAKE_TOOLCHAIN_FILE "C:/vcpkg/scripts/buildsystems/vcpkg.cmake")
+project(cuSTARFM)
+find_package(CUDA  REQUIRED)    
+find_package(GDAL REQUIRED)
+
+FILE(GLOB_RECURSE sources ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/*.cu )
+CUDA_ADD_EXECUTABLE(cuSTARFM ${includes} ${sources})
+TARGET_LINK_LIBRARIES(cuSTARFM ${CUDA_LIBRARIES})
